@@ -1,13 +1,13 @@
-import Header from "../Components/Header"
-import '../App.css';
-import MainTable from "../Components/MainTable";
+
+import Nav from "../../Components/Nav";
+import MainTable from "./MainTable";
 
 const InventoryPage = () => {
   return (
     
     <div className="bg-slate-950 min-h-screen">
-        <Header />
-        <main className="">
+    <Nav />
+        <main>
           <MainTable />
         </main>
     </div>

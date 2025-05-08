@@ -9,9 +9,9 @@
     const toggleNav = () => setIsOpen(!isOpen);
 
     const navItems = [
+      { label: 'Homepage', icon: LayoutDashboard, href: '/'},
       { label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard'},
       { label: 'Inventory', icon: BoxIcon, href: '/inventoryPage'},
-      { label: 'Dashboard', icon: LayoutDashboard, href: '#'},
       { label: 'Report', icon: BarChart2, href: '#'},
       { label: 'Setting', icon: Settings, href: '#'},
     ];
@@ -62,7 +62,7 @@
                   <Link 
                     to={href} 
                     onClick={() => setIsOpen(false)}
-                    className="hover:text-teal-300">{label}</Link>
+                    className="hover:text-teal-400">{label}</Link>
                 </li>
               ))}
             </ul>

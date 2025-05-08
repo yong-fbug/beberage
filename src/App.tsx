@@ -1,23 +1,20 @@
-
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import Nav from "./Components/Nav"
-import InventoryPage from "./Pages/InventoryPage"
-import DashboardPage from "./Pages/DashboardPage"
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import InventoryPage from "./modules/Inventory/InventoryPage";
+import DashboardPage from "./modules/Dashboard/DashboardPage";
+import LoginPage from "./pages/LoginPage";
 
 const App = () => {
   return (
-    <Router>
-      <Nav />
-      <div>
+    <BrowserRouter basename="/beberage">
+      <main className="min-h-screen bg-slate-950 text-white">
         <Routes>
+          <Route path="/" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/inventoryPage" element={<InventoryPage />} />
         </Routes>
-      </div> 
-    </Router>
-    
-  )
-}
+      </main>
+    </BrowserRouter>
+  );
+};
 
-export default App
+export default App;
