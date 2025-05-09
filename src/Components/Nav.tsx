@@ -39,7 +39,7 @@
           {/* Toggle Button */}
           <button
             onClick={toggleNav}
-            className="fixed top-4 right-4 z-49 mt-6 bg-slate-950 text-white rounded-md shadow hover:text-teal-400 transition"
+            className="fixed top-4 right-4 z-49 mt-6 bg-white dark:bg-slate-950 text-black dark:text-white rounded-md dark:shadow hover:text-teal-400 transition"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -48,11 +48,13 @@
           {/* Sidebar */}
           <aside
             ref={asideRef}
-            className={`fixed top-0 right-0 p-3 h-full w-54 bg-slate-950 text-white shadow-xl border-l border-gray-600  transition-transform duration-300 z-40
+            className={`fixed top-0 right-0 p-3 h-full w-54 bg-white dark:bg-slate-950 text-gray-800 dark:text-white shadow-xl 
+              border-l-2 dark:border-gray-600 border-teal-400 rounded
+              transition-transform duration-300 z-40
             ${isOpen ? "translate-x-0" : "translate-x-full"}`}
           >
             <div className="p-6 space-y-9">
-              <h2 className="text-xl font-semibold mb-6">Navigation</h2>
+              <h2 className="text-xl bold uppercase mb-6 text-teal-400">Navigation</h2>
               <ul className="space-y-9">
                 {navItems.map(({ label, icon: Icon, href}) => (
                   <li

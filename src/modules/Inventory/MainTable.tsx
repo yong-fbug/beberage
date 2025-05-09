@@ -79,11 +79,12 @@ const MainTable = () => {
 
       {/* Controls */}
       <div className="flex flex-wrap gap-3 items-center mb-4">
-        <label className="text-white">Sort by:</label>
+        <label className="text-black dark:text-white">Sort by:</label>
         <select
           value={sortKey}
           onChange={(e) => setSortKey(e.target.value as keyof ProductType)}
-          className="px-2 py-1 bg-slate-700 text-white rounded"
+          className="px-2 py-1 border border-gray-800 text-black dark:bg-slate-700 dark:text-white rounded
+          focus:outline focus:bg-gray-100"
         >
           {columns.map((col) => (
             <option key={col.key} value={col.key}>
@@ -95,15 +96,15 @@ const MainTable = () => {
           onClick={() =>
             setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))
           }
-          className="text-white px-3 py-1 hover:text-gray-300"
+          className="dark:text-white text-black px-3 py-1 hover:text-gray-600 dark:hover:text-gray-300"
         >
           {sortOrder === "asc" ? <ChevronUp /> : <ChevronDown />}
         </button>
       </div>
 
       <div className="w-full overflow-x-auto rounded-t-lg shadow-md">
-        <table className="min-w-[700px] w-full text-sm text-left bg-slate-800 text-slate-200 border-collapse">
-          <thead className="bg-slate-700 text-slate-300">
+        <table className="min-w-[700px] w-full text-sm text-left text-gray-800 dark:bg-slate-800 dark:text-slate-200 border-collapse">
+          <thead className="bg-teal-600 dark:bg-slate-700 text-white">
             <tr>
               {columns.map((col) => (
                 <th key={col.key} className="p-3 font-medium whitespace-nowrap">
@@ -115,7 +116,7 @@ const MainTable = () => {
           </thead>
           <tbody>
             {paginationPage.map((product, index) => (
-              <tr key={index} className="hover:bg-slate-600">
+              <tr key={index} className="hover:bg-gray-200 cursor-pointer dark:hover:bg-slate-600">
                 {columns.map((col) => (
                   <td key={col.key} className="p-3 whitespace-nowrap">
                     {product[col.key as keyof ProductType]}
@@ -144,7 +145,8 @@ const MainTable = () => {
       </div>
 
       {/* Pagination */}
-      <div className="p-4 flex flex-wrap justify-between items-center gap-4 text-sm sm:text-base">
+      <div className="p-4 flex flex-wrap justify-center gap-10 items-center text-sm sm:text-base
+      text-gray-800 dark:text-white">
         <button
           onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
           disabled={currentPage === 1}
@@ -152,7 +154,7 @@ const MainTable = () => {
         >
           <ChevronLeft />
         </button>
-        <span className="text-white">
+        <span className="text-gray-800 dark:text-white">
           Page {currentPage} of {totalPages}
         </span>
         <button
