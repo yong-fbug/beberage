@@ -1,6 +1,6 @@
 
 export type ProductType = {
-  id: number;
+  id: string;
   idCategory: number;
   Category: string;
   Product: string;
@@ -8,3 +8,4 @@ export type ProductType = {
   Volume: string;
   expiration: string;
 };
+

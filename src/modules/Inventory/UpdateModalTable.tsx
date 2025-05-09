@@ -15,10 +15,28 @@ const UpdateModalTable = ({ data, onClose, onUpdate, categories }: DataProps ) =
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState({...data})
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>, key: keyof ProductType) => {
-        setFormData((prev) => ({
-            ...prev, [key]: e.target.value,
-        }));
+    const categoryId: Record<string, number> = {
+      Coffee: 100, 
+      Tea: 200,
+      Dairy: 300,
+      Juice: 400,
+    }
+
+    const handleChange = (e: 
+        React.ChangeEvent<HTMLSelectElement> | 
+        React.ChangeEvent<HTMLInputElement> , 
+        field: keyof ProductType) => {
+
+            const value = e.target.value
+            
+        setFormData((prev) => {
+            const updated = {...prev, [field]: value };
+
+            if (field === 'Category') {
+                updated.idCategory = categoryId[value] ?? 0;
+            }
+            return updated;
+        })
     };
 
     const handleUpdate = () => {
@@ -45,7 +63,7 @@ const UpdateModalTable = ({ data, onClose, onUpdate, categories }: DataProps ) =
 
             <div className="space-y-4 text-sm text-gray-700 ">
             {Object.entries(formData).map(([key, value]) => (
-                <div key={key} className="flex justify-between items-center border-b pb-1">
+                <div key={key} className="flex justify-between items-center pb-1">
                 <span className="font-medium">
                     {key.charAt(0).toUpperCase() + key.slice(1)}
                 </span>
@@ -55,7 +73,8 @@ const UpdateModalTable = ({ data, onClose, onUpdate, categories }: DataProps ) =
                     <select
                     value={value as string}
                     onChange={(e) => handleChange(e, key as keyof typeof formData)}
-                    className="border-b border-gray-300 rounded px-2 py-1 text-sm w-1/2"
+                    className=" border-gray-300 rounded px-2 py-1 text-sm w-1/2
+                    focus:outline-none"
                     >
                     {categories.map((category, idx) => (
                         <option key={idx} value={category}>
@@ -70,7 +89,8 @@ const UpdateModalTable = ({ data, onClose, onUpdate, categories }: DataProps ) =
                         type={typeof value === 'number' ? 'number' : 'text'}
                         value={value}
                         onChange={(e) => handleChange(e, key as keyof typeof formData)}
-                        className="border-b border-gray-300 rounded px-2 py-1 text-sm text-right w-1/2"
+                        className="border-b border-gray-900 rounded-sm px-2 py-1 text-sm text-right w-1/2
+                        focus:outline-none focus:border-b-teal-500 "
                     />
                     ) : (
                     // If not in edit mode, just show the value
