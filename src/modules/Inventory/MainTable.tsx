@@ -1,16 +1,9 @@
 import { useState } from "react";
 import Header from "../../Components/Header";
-import { ChevronLeft, ChevronRight, PenLine } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Edit2 } from "lucide-react";
+import UpdateModalTable from "./UpdateModalTable";
+import { ProductType } from "./ProductType";
 
-type ProductType = {
-  id: number;
-  idCategory: number;
-  Category: string;
-  Product: string;
-  Quantity: number;
-  Volume: string;
-  expiration: string;
-};
 
 const sampleData: ProductType[] = [
   { id: 1001, idCategory: 100, Category: "Coffee", Product: "Espresso", Quantity: 12, Volume: "250ml", expiration: "2025-08-10" },
@@ -36,7 +29,9 @@ const sampleData: ProductType[] = [
 const columns = [
   { key: "id", label: "ID" },
   { key: "idCategory", label: "ID Category" },
-  { key: "Category", label: "Category" },
+  { key: "Category", label: "Category",
+    options: ["Coffee", "Tea", "Dairy", "Juice"],
+   },
   { key: "Product", label: "Product" },
   { key: "Quantity", label: "Quantity" },
   { key: "Volume", label: "Volume" },
@@ -46,13 +41,15 @@ const columns = [
 const itemsPerPage = 5;
 
 const MainTable = () => {
+  const [data, setData] = useState<ProductType[]>(sampleData)
   const [currentPage, setCurrentPage] = useState(1);
   const [sortKey, setSortKey] = useState<keyof ProductType>("Product");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [selectProduct, setSelectProduct] = useState(null)
 
-  const totalPages = Math.ceil(sampleData.length / itemsPerPage);
+  const totalPages = Math.ceil(data.length / itemsPerPage);
 
-  const sortedData = [...sampleData].sort((a, b) => {
+  const sortedData = [...data].sort((a, b) => {
     const aVal = a[sortKey];
     const bVal = b[sortKey];
     if (aVal < bVal) return sortOrder === "asc" ? -1 : 1;
@@ -65,9 +62,18 @@ const MainTable = () => {
     currentPage * itemsPerPage
   );
 
+  const handleUpdateProduct = (updatedProduct: ProductType) => {
+    setData((prevData) => 
+      prevData.map((product) => 
+        product.id === updatedProduct.id ? updatedProduct : product));
+    setSelectProduct(null) //Close modal after updates
+  }
+
+  const categoryOptions = columns.find(col => col.key === 'Category')?.options ?? [];
+
   return (
     <div className="p-3">
-      <Header />
+      <Header />     
 
       {/* Controls */}
       <div className="flex flex-wrap gap-3 items-center mb-4">
@@ -87,9 +93,9 @@ const MainTable = () => {
           onClick={() =>
             setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))
           }
-          className="text-white bg-slate-600 px-3 py-1 rounded"
+          className="text-white px-3 py-1 hover:text-gray-300"
         >
-          {sortOrder === "asc" ? "ASC" : "DESC"}
+          {sortOrder === "asc" ? <ChevronUp /> : <ChevronDown />}
         </button>
       </div>
 
@@ -114,15 +120,24 @@ const MainTable = () => {
                   </td>
                 ))}
                 <td className="p-3">
-                  <button className="hover:text-blue-400">
-                    <PenLine className="w-5 h-5" />
-                    {/* Create a file name (UpdateModalTable) for modal in update/remove inventory */}
-                  </button>
+                  <button 
+                    onClick={() => setSelectProduct(product)}
+                  ><Edit2 /> </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        { selectProduct && (
+        <UpdateModalTable 
+          data={selectProduct} 
+          onClose={() => setSelectProduct(null)}
+          onUpdate={handleUpdateProduct}
+          categories={categoryOptions}
+          
+        />
+        //Here is the props or the way updateModalTable gets it's data from main table
+      )}
       </div>
 
       {/* Pagination */}
