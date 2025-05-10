@@ -4,7 +4,7 @@ import Nav from "../../Components/Nav"
 
 const DashboardPage = () => {
   return (
-    <div className='bg-slate-950 min-h-screen'>
+    <div className='bg-white dark:bg-slate-950 min-h-screen'>
       <Header />
       <Nav />
         <main>

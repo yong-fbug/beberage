@@ -105,7 +105,7 @@ const UpdateModalTable = ({ data, onClose, onUpdate, categories }: DataProps ) =
             <div className='flex justify-center p-3 text-black bold gap-10 '>
                 <button
                   onClick={handleUpdate}
-                  className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm'
+                  className='px-4 py-2 bg-amber-500 text-white rounded hover:bg-amber-600 text-sm'
                 >
                     { editMode ? "Save" : "Update"}
                 </button>

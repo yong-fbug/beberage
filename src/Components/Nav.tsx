@@ -1,5 +1,5 @@
     import { useEffect, useRef, useState } from "react";
-    import { Menu, X, LayoutDashboard, Settings, BoxIcon, BarChart2 } from "lucide-react";
+    import { Menu, X, LayoutDashboard, Settings, BoxIcon, BarChart2, LogOut } from "lucide-react";
     import { Link } from "react-router-dom";
 
     const Nav = () => {
@@ -9,11 +9,11 @@
       const toggleNav = () => setIsOpen(!isOpen);
 
       const navItems = [
-        { label: 'Homepage', icon: LayoutDashboard, href: '/'},
         { label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard'},
         { label: 'Inventory', icon: BoxIcon, href: '/inventoryPage'},
         { label: 'Report', icon: BarChart2, href: '#'},
         { label: 'Setting', icon: Settings, href: '#'},
+         { label: 'Logout', icon: LogOut, href: '/'},
       ];
 
       useEffect(() => {

@@ -3,3 +3,7 @@
 .body {
     @apply text-base text-slate-950 font-sans;
 }
+
+/* .page-heading {
+  @apply text-gray-800 dark:text-white ml-3 p-3 pb-0.5 border-gray-600 border-b-[3px] w-fit;
+} */

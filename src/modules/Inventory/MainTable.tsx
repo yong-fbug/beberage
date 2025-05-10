@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Header from "../../Components/Header";
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Edit2 } from "lucide-react";
 import UpdateModalTable from "./UpdateModalTable";
 import { ProductType } from "./ProductType";
@@ -75,8 +74,7 @@ const MainTable = () => {
 
   return (
     <div className="p-3">
-      <Header />     
-
+        
       {/* Controls */}
       <div className="flex flex-wrap gap-3 items-center mb-4">
         <label className="text-black dark:text-white">Sort by:</label>
