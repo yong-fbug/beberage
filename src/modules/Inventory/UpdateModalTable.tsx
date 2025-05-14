@@ -1,19 +1,24 @@
 import { X } from 'lucide-react';
 import { useState } from 'react';
 import { ProductType } from './ProductType';
+import Loading from '../../Components/Loading';
+
 
 
 type DataProps = {
     data: ProductType;
     onClose: () => void;
     onUpdate: (updatedProduct: ProductType) => void;
+    onRemove: (id: string) => void;
     categories: string[];
 }
 
-const UpdateModalTable = ({ data, onClose, onUpdate, categories }: DataProps ) => {
+const UpdateModalTable = ({ data, onClose, onUpdate, categories, onRemove }: DataProps ) => {
 
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState({...data})
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const categoryId: Record<string, number> = {
       Coffee: 100, 
@@ -46,6 +51,19 @@ const UpdateModalTable = ({ data, onClose, onUpdate, categories }: DataProps ) =
         } else {
             setEditMode(true);
         }
+    }
+
+    const openDeleteModal = () => setShowDeleteModal(true);
+    
+    const cancelDeletionProcess = () => setShowDeleteModal(false)
+
+    const handleRemove = () => {
+       setLoading(true);
+       setTimeout(() => {
+             onRemove(formData.id);
+             setLoading(false);
+             onClose();
+       }, 1000);
     }
 
   return (
@@ -110,12 +128,46 @@ const UpdateModalTable = ({ data, onClose, onUpdate, categories }: DataProps ) =
                     { editMode ? "Save" : "Update"}
                 </button>
                 <button
-                  onClick={() => setEditMode(false)}
+                  onClick={openDeleteModal}
                   className='px-4 py-2 border text-sm rounded hover:bg-gray-100'
                 >
-                    { editMode ? "Cancel" : "Remove"}
+                   Delete
                 </button>
             </div>
+
+            {showDeleteModal && (
+                <div className='fixed inset-0 flex justify-center items-center bg-black/70'>
+                    <div className='relative w-full max-w-md bg-white border rounded shadow-xl p-6'>
+                        <X onClick={cancelDeletionProcess}
+                        className='absolute top-4 right-4 hover:text-gray-500 cursor-pointer'
+                        />
+                        { loading ? (
+                             <div className='bg-white w-full fixed inset-0 flex items-center justify-center'>
+                                    <Loading />
+                                </div>
+                        ) : (
+                            <>
+
+                            <div className='flex flex-col text-center text-gray-800 mt-5'>
+                            <p className='>text-lg font-semibold'>Are you sure you want to delete this product?</p>
+                            <p className='text-sm text-gray-600 mt-2'>This action cannot be undone.</p>
+                            </div>
+                            <div className='mt-6 flex justify-center gap-4'>
+                                <button onClick={handleRemove}
+                                    className='bg-red-700 hover:bg-red-800 text-white text-sm font-medium rounded px-4 py-2'>
+                                    Proceed
+                                </button>
+                                <button onClick={cancelDeletionProcess}
+                                    className='bg-gray-200 hover:bg-gray-300 text-sm font-medium rounded px-4 py-2'>
+                                    Cancel
+                                </button>
+                            </div>
+                            </>
+                        )}
+                        
+                    </div>
+                </div>
+            )}
         </div>
     </div>
   )

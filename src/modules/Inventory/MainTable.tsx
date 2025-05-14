@@ -1,30 +1,8 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Edit2 } from "lucide-react";
 import UpdateModalTable from "./UpdateModalTable";
 import { ProductType } from "./ProductType";
-
-const generateUniqueId = () => `${Date.now()}-${Math.floor(Math.random() * 1000)}`
-
-const sampleData: ProductType[] = [
-  { id: generateUniqueId(), idCategory: 100, Category: "Coffee", Product: "Espresso", Quantity: 12, Volume: "250ml", expiration: "2025-08-10" },
-  { id: generateUniqueId(), idCategory: 100, Category: "Coffee", Product: "Latte", Quantity: 8, Volume: "300ml", expiration: "2025-06-15" },
-  { id: generateUniqueId(), idCategory: 100, Category: "Coffee", Product: "Espresso", Quantity: 12, Volume: "250ml", expiration: "2025-08-10" },
-  { id: generateUniqueId(), idCategory: 200, Category: "Tea", Product: "Green Tea", Quantity: 20, Volume: "200ml", expiration: "2026-01-01" },
-  { id: generateUniqueId(), idCategory: 100, Category: "Coffee", Product: "Espresso", Quantity: 12, Volume: "250ml", expiration: "2025-08-10" },
-  { id: generateUniqueId(), idCategory: 300, Category: "Dairy", Product: "Milk", Quantity: 15, Volume: "500ml", expiration: "2025-05-20" },
-  { id: generateUniqueId(), idCategory: 100, Category: "Coffee", Product: "Espresso", Quantity: 12, Volume: "250ml", expiration: "2025-08-10" },
-  { id: generateUniqueId(), idCategory: 400, Category: "Juice", Product: "Orange Juice", Quantity: 10, Volume: "350ml", expiration: "2025-07-30" },
-  { id: generateUniqueId(), idCategory: 100, Category: "Coffee", Product: "Espresso", Quantity: 12, Volume: "250ml", expiration: "2025-08-10" },
-  { id: generateUniqueId(), idCategory: 100, Category: "Coffee", Product: "Americano", Quantity: 18, Volume: "250ml", expiration: "2025-08-01" },
-  { id: generateUniqueId(), idCategory: 100, Category: "Coffee", Product: "Espresso", Quantity: 12, Volume: "250ml", expiration: "2025-08-10" },
-  { id: generateUniqueId(), idCategory: 200, Category: "Tea", Product: "Black Tea", Quantity: 25, Volume: "200ml", expiration: "2026-03-15" },
-  { id: generateUniqueId(), idCategory: 100, Category: "Coffee", Product: "Espresso", Quantity: 12, Volume: "250ml", expiration: "2025-08-10" },
-  { id: generateUniqueId(), idCategory: 300, Category: "Dairy", Product: "Yogurt", Quantity: 10, Volume: "150ml", expiration: "2025-06-05" },
-  { id: generateUniqueId(), idCategory: 100, Category: "Coffee", Product: "Espresso", Quantity: 12, Volume: "250ml", expiration: "2025-08-10" },
-  { id: generateUniqueId(), idCategory: 400, Category: "Juice", Product: "Apple Juice", Quantity: 14, Volume: "350ml", expiration: "2025-07-10" },
-  { id: generateUniqueId(), idCategory: 100, Category: "Coffee", Product: "Espresso", Quantity: 12, Volume: "250ml", expiration: "2025-08-10" },
-  { id: generateUniqueId(), idCategory: 100, Category: "Coffee", Product: "Cappuccino", Quantity: 9, Volume: "300ml", expiration: "2025-08-18" },
-];
+// import { sampleData } from "../../data/sampleData";
 
 const columns = [
   { key: "id", label: "ID" },
@@ -41,36 +19,41 @@ const columns = [
 
 const itemsPerPage = 5;
 
-const MainTable = () => {
-  const [data, setData] = useState<ProductType[]>(sampleData)
+type MainCategoryProps = {
+  byCategorySelection: string;
+  data: ProductType[];
+  onUpdateProduct: (updatedProduct: ProductType) => void;
+  onRemoveProduct: (id: string) => void;
+};
+
+const MainTable = ({ byCategorySelection, data, onRemoveProduct, onUpdateProduct }: MainCategoryProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortKey, setSortKey] = useState<keyof ProductType>("Product");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [selectProduct, setSelectProduct] = useState<ProductType | null>(null)
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
 
-  const sortedData = [...data].sort((a, b) => {
-    const aVal = a[sortKey];
-    const bVal = b[sortKey];
-    if (aVal < bVal) return sortOrder === "asc" ? -1 : 1;
-    if (aVal > bVal) return sortOrder === "asc" ? 1 : -1;
-    return 0;
-  });
+  const filteredData = useMemo(() => {
+    if (byCategorySelection === 'All') return data;
+    return data.filter((item) => item.Category === byCategorySelection);
+  }, [data, byCategorySelection])
+
+  const sortedData = useMemo(() => {
+    return [...filteredData].sort((a, b) => {
+      const aVal = a[sortKey];
+      const bVal = b[sortKey];
+      if (aVal < bVal) return sortOrder === "asc" ? -1 : 1;
+      if (aVal > bVal) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+  }, [filteredData, sortKey, sortOrder]);
+
+  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
 
   const paginationPage = sortedData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
-  const handleUpdateProduct = (updatedProduct: ProductType) => {
-    setData((prevData) => 
-      prevData.map((product) => 
-        product.id === updatedProduct.id ? updatedProduct : product));
-    setSelectProduct(null) //Close modal after updates
-  }
-
-  const categoryOptions = columns.find(col => col.key === 'Category')?.options ?? [];
 
   return (
     <div className="p-3">
@@ -134,9 +117,9 @@ const MainTable = () => {
         <UpdateModalTable 
           data={selectProduct} 
           onClose={() => setSelectProduct(null)}
-          onUpdate={handleUpdateProduct}
-          categories={categoryOptions}
-          
+          onUpdate={onUpdateProduct}
+          onRemove={onRemoveProduct}
+          categories={columns.find(col => col.key === 'Category')?.options ?? []}
         />
         //Here is the props or the way updateModalTable gets it's data from main table
       )}

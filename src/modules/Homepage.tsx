@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-white text-gray-800 dark:bg-slate-950 dark:text-white">
       <Header />
 
       <main className="flex flex-col items-center justify-center py-20 px-6 text-center">

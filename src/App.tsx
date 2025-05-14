@@ -6,7 +6,7 @@ import LoginPage from "./pages/LoginPage";
 const App = () => {
   return (
     <BrowserRouter basename="/beberage">
-      <main className="min-h-screen bg-slate-950 text-white">
+      <main className="min-h-screen bg-white text-gray-800 dark:bg-slate-950 dark:text-white">
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />

@@ -58,7 +58,7 @@ const LoginPage = () => {
         initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 100, damping: 15 }}
-        className="relative flex rounded-lg shadow-xl overflow-hidden w-full max-w-4xl min-h-[500px]"
+        className="relative flex rounded-lg   shadow-xl overflow-hidden w-full max-w-4xl min-h-[500px]"
       >
         {/* Sidebar */}
         <motion.div
@@ -70,8 +70,8 @@ const LoginPage = () => {
           className="relative w-1/2 min-h-full sm:block hidden"
         >
           <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center">
-            <h2 className="text-3xl font-bold mb-4">Inventory Access</h2>
-            <p className="text-lg">Log in to manage stock, suppliers, and reports</p>
+            <h2 className="text-3xl font-bold mb-4 text-teal-500 dark:text-gray-800">Inventory Access</h2>
+            <p className="text-lg text-gray-500 dark:text-gray-100">Log in to manage stock, suppliers, and reports</p>
           </div>
         </motion.div>
 
@@ -86,7 +86,7 @@ const LoginPage = () => {
               transition={{ type: "spring", stiffness: 120, damping: 15 }}
               className="absolute top-0 left-0 w-full h-full p-8 flex flex-col justify-center items-center space-y-6"
             >
-              <h2 className="text-3xl font-bold text-center">Login</h2>
+              <h2 className="text-3xl font-bold text-center text-teal-500 dark:text-gray-800">Log-in</h2>
 
               <form onSubmit={handleLogin} className="space-y-4 flex flex-col w-full px-6">
                 <input
@@ -125,7 +125,7 @@ const LoginPage = () => {
 
                 <button
                   type="submit"
-                  className="w-full py-2 bg-teal-500 text-white font-semibold rounded-md hover:bg-teal-600 transition"
+                  className="w-full py-2 bg-amber-500 text-white font-semibold rounded-md hover:bg-amber-600 transition"
                 >
                   Log-in
                 </button>

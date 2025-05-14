@@ -1,4 +1,5 @@
 import Header from "../../Components/Header"
+import Loading from "../../Components/Loading"
 import Nav from "../../Components/Nav"
 
 
@@ -9,6 +10,8 @@ const DashboardPage = () => {
       <Nav />
         <main>
             <h1>HALLO ADMIN or MANAGAR</h1>
+
+            <Loading />
         </main>
     </div>
   )
