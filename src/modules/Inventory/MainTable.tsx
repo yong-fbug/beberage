@@ -13,6 +13,7 @@ const columns = [
   { key: "Product", label: "Product" },
   { key: "Quantity", label: "Quantity" },
   { key: "Volume", label: "Volume" },
+  { key: "datePurchase", label: "Date Purchase" },
   { key: "expiration", label: "Expiration" },
 ];
 

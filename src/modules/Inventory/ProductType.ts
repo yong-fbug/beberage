@@ -6,6 +6,7 @@ export type ProductType = {
   Product: string;
   Quantity: number;
   Volume: string;
+  datePurchase: string;
   expiration: string;
 };
 

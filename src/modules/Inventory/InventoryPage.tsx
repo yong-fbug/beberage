@@ -22,6 +22,7 @@ const InventoryPage = () => {
     Product: "",
     Quantity: 0,
     Volume: "",
+    datePurchase: "",
     expiration: ""
   });
 
@@ -35,6 +36,7 @@ const InventoryPage = () => {
       Product: "",
       Quantity: 0,
       Volume: "",
+      datePurchase: "",
       expiration: ""
     });
   };
